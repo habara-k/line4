@@ -10,7 +10,7 @@ class PlayerFactory:
         }
     statement = ('プレイヤーを選択してください\n'+
                  '1: Human\n'+
-                 '2: RandomAI\n'
+                 '2: RandomCP\n'
                  )
 
     @classmethod

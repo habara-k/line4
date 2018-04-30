@@ -12,7 +12,7 @@ class Game:
     ------------
     board : Board
         立体四目盤
-    player : VirtualPlayer
+    player : Player
         プレイヤー
     display : Display
         表示を担う
@@ -39,6 +39,7 @@ class Game:
             winner = self.__put()            # 石を落とす
             if winner:
                 self.__show_result(winner)
+                break
 
             if self.board.is_full():
                 self.__show_result(None)        # 結果を表示して
