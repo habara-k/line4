@@ -20,6 +20,8 @@ class Board:
         assert z == self.lowest_space(x, y)
         self.box[z][y][x] = color
 
+        return self.bingo_at(pos)
+
     def remove_at(self, pos):
         """ posにある石を取り除く """
         x, y, z = pos.to_xyz()
@@ -39,12 +41,14 @@ class Board:
         for y in AXIS:
             for x in AXIS:
                 for z in AXIS:
-                    if not self.available(x, y, z):
-                        yield Position(x, y, z)
+                    pos = Position(x, y, z)
+                    if not self.available_at(pos):
+                        yield pos
 
-    def full(self):
+    def is_full(self):
         """ 盤面が全て埋まっているかどうかの判定 """
         return not any(self.spaces())
+
 
     def bingo_at(self, pos):
         """ posを通るラインのいずれかが、4つ揃っているかどうかの判定 """
@@ -53,12 +57,6 @@ class Board:
                all(self.box[c][b][a] == BLACK for a, b, c in line) or
                all(self.box[c][b][a] == WHITE for a, b, c in line)
                for line in lines_at[x, y, z])
-
-    def won_at(self, pos, color):
-        x, y, z = pos.to_xyz()
-        return any(
-                all(self.box[c][b][a] == color for a, b, c in line)
-                for line in lines_at[x, y, z])
 
     def refresh(self):
         self.box = [[[SPACE for x in AXIS] for y in AXIS] for z in AXIS]
@@ -69,10 +67,6 @@ class Board:
             print('z:', z, 'x:', ' '.join(map(str, AXIS)))
             for y in AXIS:
                 print('   y:', y, ' '.join(stone[x] for x in self.box[z][y]))
-
-    def available(self, x, y):
-        z = self.lowest_space(x, y)
-        return z is not None
 
 
     def available_at(self, pos):
