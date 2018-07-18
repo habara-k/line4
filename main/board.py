@@ -67,6 +67,7 @@ class Board:
             print('z:', z, 'x:', ' '.join(map(str, AXIS)))
             for y in AXIS:
                 print('   y:', y, ' '.join(stone[x] for x in self.box[z][y]))
+        print('')
 
 
     def available_at(self, pos):
